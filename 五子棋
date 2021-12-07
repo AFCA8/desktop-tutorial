@@ -1,0 +1,109 @@
+import edu.princeton.cs.algs4.StdDraw;
+
+import java.awt.*;
+public class PJ {
+    public static class keyboard{
+        private int[][] kb = new int[17][17];
+        public keyboard(){
+            for(int i=0;i<17;i++){
+                for(int o=0;o<17;o++){
+                    kb[i][o]=-1;}}}
+        public void PlaceC(int x,int y,int player){
+            kb[x][y]=player;
+        }
+        public int getinfo(int x,int y){
+            return kb[x][y];}
+        public boolean abandon(int x,int y,int player){
+            if(kb[x+1][y]==0&&kb[x+2][y]==0){return true;}
+            if(kb[x-1][y]==0&&kb[x-2][y]==0){return true;}
+            if(kb[x][y+1]==0&&kb[x][y+2]==0){return true;}
+            if(kb[x][y-1]==0&&kb[x][y-2]==0){return true;}
+            return false;}
+
+        public boolean Win(int x,int y,int player){
+                if(kb[x+1][y]==player){return true;}
+                else {return false;}///这个是判断胜负的，还没完成，但是运行好像没毛病
+        }
+        public int[] Bot(){
+            int[] bot = new int[2];
+            boolean wbot=true;
+            while (wbot){
+                bot[0]= (int) (Math.random()*17);
+                bot[1]= (int) (Math.random()*17);
+                if(getinfo(bot[0],bot[1])==-1){wbot=false;}}
+            return bot;}
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        int color=0;
+        StdDraw.setXscale(0,17);
+        StdDraw.setYscale(-2,17);
+        keyboard kb = new keyboard();
+        boolean mp = true;
+        boolean playagain=true;
+        boolean PVE=false;
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledRectangle(2.5,1,2,1);
+        StdDraw.filledRectangle(10,1,2,1);
+        StdDraw.setPenColor(Color.black);
+        StdDraw.text(2.5,1,"PVE");
+        StdDraw.text(10,1,"PVP");
+        for(;mp;) {
+            if(StdDraw.isMousePressed()){mp=false;}Thread.sleep(100);
+            if(StdDraw.mouseX()<3){PVE=true;}if(StdDraw.mouseX()>3){PVE=false;}}
+        boolean contin = true;
+for(;contin;){
+        contin=false;
+        StdDraw.clear();
+        StdDraw.setPenColor(Color.yellow);
+        StdDraw.filledSquare(8.5,8.5,8.5);
+        StdDraw.setPenColor(Color.black);
+        for(int i=0 ; i<=17 ;i++){
+                StdDraw.line(0,i,18,i);
+                StdDraw.line(i,0,i,18);}
+        StdDraw.setPenColor(Color.RED);
+        StdDraw.filledSquare(8.5,-1,1);
+        int x=(int)99;int y=(int)99;
+        int ins=1;
+        for(;true;){
+            boolean setc=true;
+            if(color==1){StdDraw.setPenColor(Color.black);}else {StdDraw.setPenColor(Color.white);}
+            for(;setc;){
+
+                if(StdDraw.isMousePressed()){
+                    if(color==1&&PVE==true){
+                        int[]bot = kb.Bot();x=bot[0];y=bot[1];setc=false;color=(color+1)%2;Thread.sleep(100);break;}
+                    else {
+                        setc=false;x=(int)StdDraw.mouseX();y=(int)StdDraw.mouseY();
+                        color=(color+1)%2;Thread.sleep(100);break;}}
+
+                boolean abandoned = false;
+                if(x<17&&color==1){abandoned = kb.abandon(x,y,color);}
+                if(abandoned){color+=1;}
+                if(abandoned==false){StdDraw.filledCircle(x+0.5,y+0.5,0.5);
+                if(x<17&&y<17){kb.PlaceC(x,y,color);}}
+
+            if(abandoned){
+                StdDraw.setPenColor(StdDraw.RED);StdDraw.text(3,-1,"you can't place there");}
+
+            if(StdDraw.isMousePressed()){StdDraw.setPenColor(Color.WHITE);StdDraw.filledRectangle(1,-2,5,2);}}
+            if(kb.Win(x,y,color)){StdDraw.clear();StdDraw.setPenColor(Color.RED);if(color==1){StdDraw.text(1,1,"white win");break;}
+            if(color==0){StdDraw.text(1,1,"black win");}Thread.sleep(100);
+            }}
+        StdDraw.clear();StdDraw.text(2,2,"play again?");boolean pa = true;
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledRectangle(2.5,1,2,1);
+        StdDraw.filledRectangle(7.5,1,2,1);
+        StdDraw.setPenColor(Color.black);
+        StdDraw.text(2.5,1,"play again(PVE)");
+        StdDraw.text(7.5,1,"quit(PVP)");
+        for(;pa;) {
+        if(StdDraw.isMousePressed()){pa=false;}Thread.sleep(100);
+        if(StdDraw.mouseX()<10){contin=true;color=0;}
+        if(StdDraw.mouseX()<5){PVE=true;}
+        if(StdDraw.mouseX()>5){PVE=false;}
+            }}
+        }}
+
+
