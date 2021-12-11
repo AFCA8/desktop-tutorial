@@ -1,109 +1,484 @@
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
-public class PJ {
+public class P2 {
+
+
     public static class keyboard{
         private int[][] kb = new int[17][17];
         public keyboard(){
             for(int i=0;i<17;i++){
                 for(int o=0;o<17;o++){
                     kb[i][o]=-1;}}}
+        public void kbclear(){
+            for(int i=0;i<17;i++){
+                for(int o=0;o<17;o++){
+                    kb[i][o]=-1;}}
+        }
         public void PlaceC(int x,int y,int player){
             kb[x][y]=player;
         }
         public int getinfo(int x,int y){
             return kb[x][y];}
-        public boolean abandon(int x,int y,int player){
-            if(kb[x+1][y]==0&&kb[x+2][y]==0){return true;}
-            if(kb[x-1][y]==0&&kb[x-2][y]==0){return true;}
-            if(kb[x][y+1]==0&&kb[x][y+2]==0){return true;}
-            if(kb[x][y-1]==0&&kb[x][y-2]==0){return true;}
+        public boolean forbidden(int x,int y,int player){
+            int count =1;
+            int countT=0;
+            if(x<15){
+                for(int i =x+1;i<17;i++){
+                    if(kb[i][y]==1){
+                        count++;
+                        if(count>=3){
+                            countT++;
+                            count=1;}
+                    }else {
+                        count=1;
+                        break;}}}
+            if(x>1){
+                for(int i =x-1;i>0;i--){
+                    if(kb[i][y]==1){
+                        count++;
+                        if(count>=3){
+                            countT++;
+                            count=1;}
+                    }else {
+                        count=1;
+                        break;}}}
+            if(y<15){
+                for(int i =y+1;i<17;i++){
+                    if(kb[x][i]==1){
+                        count++;
+                        if(count>=3){
+                            countT++;
+                            count=1;}
+                    }else {
+                        count=1;
+                        break;}}}
+            if(y>1){
+                for(int i =y-1;i>0;i--){
+                    if(kb[y][i]==1){
+                        count++;
+                        if(count>=3){
+                            countT++;
+                            count=1;}
+                    }else {
+                        count=1;
+                        break;}}}
+            if(x>1&y>1){int Y = y-1;
+                for(int i = x-1;i>0;i--,Y--){
+                    if(kb[i][Y] == 1){
+                        count++;
+                        if(count>=3){
+                            countT++;
+                            count=1;}
+                    }else {
+                        count=1;
+                        break;}}}
+            if(x>1&y<15){int Y = y+1;
+                for(int i = x-1;i>0;i--,Y++){
+                    if(kb[i][Y] == 1){
+                        count++;
+                        if(count >=3) {
+                            countT++;
+                            count =1;}
+                    }else { count =1;
+                        break;
+                    }}
+            }if(x<15&y>1){int Y = y-1;
+                for(int i = x+1;i<17;i++,Y--){
+                    if(kb[i][Y] == 1){
+                        count++;
+                        if(count >=3) {
+                            countT++;
+                            count =1;
+                        }}
+                    else { count =1;
+                        break;}}}
+            if(x<15&y<15) {
+                int Y = y + 1;
+                for (int i = x + 1; i <17; i++, Y++) {
+                    if (kb[i][Y] == 1) {
+                        count++;
+                        if (count >= 3) {
+                            countT++;
+                            count = 1;}}
+                    else {
+                        count = 1;
+                        break;}}}
+            if(countT>=2){countT=0;
+                return true;}
+            countT=0;
             return false;}
 
         public boolean Win(int x,int y,int player){
-                if(kb[x+1][y]==player){return true;}
-                else {return false;}///这个是判断胜负的，还没完成，但是运行好像没毛病
+            int Color = player;
+            int count =1;
+            int countT=0;
+            boolean BlIsWin = false;boolean WhIsWin = false;
+            if(Color == 1){
+                if(x<13){//→
+                    for(int i = x+1;i<17;i++){
+                        if(kb[i][y]==1){
+                            count++;
+                            if(count>=5) {
+                                BlIsWin = true;
+                                count =1;
+                            }
+                        }else{ count =1;
+                            break;}}}
+                if(x>3){//←
+                    for(int i = x-1;i>0;i--) {
+                        if (kb[i][y] == 1) {
+                            count++;
+                            if (count >= 5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(y<13){//↓
+                    for(int i = y+1;i<17;i++){
+                        if(kb[x][i]==1){
+                            count++;
+                            if(count>=5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(y>3){//↑
+                    for(int i = y-1;i>0;i--) {
+                        if (kb[x][i] == 1) {
+                            count++;
+                            if (count >= 5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(x>3&y>3){int Y = y-1;//↖
+                    for(int i = x-1;i>0;i--,Y--){
+                        if(kb[i][Y] == 1){
+                            count++;
+                            if(count >=5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else { count =1;
+                            break;}}}
+                if(x>3&y<13){int Y = y+1;//↙
+                    for(int i = x-1;i>0;i--,Y++){
+                        if(kb[i][Y] == 1){
+                            count++;
+                            if(count >=5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else { count =1;
+                            break;}}
+                }if(x<13&y>3){int Y = y-1;//↗
+                    for(int i = x+1;i<17;i++,Y--){
+                        if(kb[i][Y] == 1){
+                            count++;
+                            if(count >=5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else { count =1;
+                            break;}}}
+                if(x<13&y<13){int Y = y+1;//↘
+                    for(int i = x+1;i<17;i++,Y++){
+                        if(kb[i][Y] == 1){
+                            count++;
+                            if(count >=5) {
+                                BlIsWin = true;
+                                count =1;}
+                        }else { count =1;
+                            break;}}}
+            }else if(Color == 0){                   //白子胜负
+                count =1;
+                if(x<13){
+                    for(int i = x+1;i<17;i++){
+                        if(kb[i][y]==0){
+                            count++;
+                            if(count>=5) {
+                                WhIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(x>3){
+                    for(int i = x-1;i>0;i--) {
+                        if (kb[i][y] == 0) {
+                            count++;
+                            if (count >= 5) {
+                                WhIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(y<13){
+                    for(int i = y+1;i<17;i++){
+                        if(kb[x][i]==0){
+                            count++;
+                            if(count>=5) {
+                                WhIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(y>3){
+                    for(int i = y-1;i>0;i--) {
+                        if (kb[x][i] == 0) {
+                            count++;
+                            if (count >= 5) {
+                                WhIsWin = true;
+                                count =1;}
+                        }else{ count =1;
+                            break;}}}
+                if(x>3&y>3){int Y = y-1;
+                    for(int i = x-1;i>0;i--,Y--){
+                        if(kb[i][Y] == 0){
+                            count++;
+                            if(count >=5) {
+                                WhIsWin = true;
+                                count =1;
+                            }
+                        }else { count =1;
+                            break;
+
+                        }
+                    }
+                }
+                if(x>3&y<13){int Y = y+1;
+                    for(int i = x-1;i>0;i--,Y++){
+                        if(kb[i][Y] == 0){
+                            count++;
+                            if(count >=5) {
+                                WhIsWin = true;
+                                count =1;
+                            }
+                        }else { count =1;
+                            break;
+
+                        }
+                    }
+                }if(x<13&y>3){int Y = y-1;
+                    for(int i = x+1;i<17;i++,Y--){
+                        if(kb[i][Y] == 0){
+                            count++;
+                            if(count >=5) {
+                                WhIsWin = true;
+                                count =1;
+                            }
+                        }else { count =1;
+                            break;
+
+                        }
+                    }
+                }
+                if(x<13&y<13){int Y = y+1;
+                    for(int i = x+1;i<17;i++,Y++){
+                        if(kb[i][Y] == 0){
+                            count++;
+                            if(count >=5) {
+                                WhIsWin = true;
+                                count =1;
+                            }
+                        }else { count =1;
+                            break;
+
+                        }
+                    }
+                }
+            }
+            if(player==0){return WhIsWin;}
+            else {return BlIsWin;}
         }
-        public int[] Bot(){
+        public int[] Bota(int player){
             int[] bot = new int[2];
             boolean wbot=true;
             while (wbot){
-                bot[0]= (int) (Math.random()*17);
-                bot[1]= (int) (Math.random()*17);
-                if(getinfo(bot[0],bot[1])==-1){wbot=false;}}
+                bot[0]= (int) (Math.random()*15);
+                bot[1]= (int) (Math.random()*15);
+                if(getinfo(bot[0],bot[1])==-1){wbot=false;}
+                if(player==0&&forbidden(bot[0],bot[1],0)==true){wbot=false;}
+            }
             return bot;}
     }
-
+    public static class timer {
+        private static long PlayerChangetime;
+        private static long PlayerChangetime1;
+        static int pastplayer;
+        static long BtotalTime=100000;static long BroundTime = 10000;
+        static long WtotalTime=100000;static long WroundTime = 10000;
+        public static void resettime(){
+        }
+        public static void gameset(){
+            PlayerChangetime = System.currentTimeMillis();}
+        public static boolean countTime(int player){
+            if(pastplayer==0&&player==0){
+                long rt = System.currentTimeMillis() - PlayerChangetime;
+                if(BroundTime/200!=rt/200){
+                    StdDraw.setPenColor(Color.white);
+                    StdDraw.filledRectangle(15,-0.55,2,0.5);
+                    StdDraw.filledRectangle(12,-0.55,2,0.5);
+                    StdDraw.setPenColor(Color.RED);
+                    StdDraw.text(12,-0.55, String.valueOf((BtotalTime-rt)/1000));
+                    StdDraw.text(15,-0.55, String.valueOf(10-rt/1000));
+                    BroundTime = rt+5;
+                }
+                if(rt>10000){return false;}
+                if(BtotalTime-rt<0){return false;}
+            }
+            if(pastplayer==1&&player==1){
+                long rt = System.currentTimeMillis() - PlayerChangetime;
+                if(WroundTime/200!=rt/200){
+                    StdDraw.setPenColor(Color.white);
+                    StdDraw.filledRectangle(15,-1.5,2,0.5);
+                    StdDraw.filledRectangle(12,-1.5,2,0.5);
+                    StdDraw.setPenColor(Color.RED);
+                    StdDraw.text(12,-1.5, String.valueOf((WtotalTime-rt)/1000));
+                    StdDraw.text(15,-1.5, String.valueOf(10-rt/1000));
+                    WroundTime=rt;
+                }
+                if(rt>10000){return false;}
+                if(WtotalTime-rt<0){return false;}
+            }
+            if(pastplayer==0&&player==1){
+                BtotalTime=BtotalTime-System.currentTimeMillis()+PlayerChangetime;
+                PlayerChangetime = System.currentTimeMillis();
+                pastplayer = 1;
+                if(BtotalTime<0){return false;}
+            }
+            if(pastplayer==1&&player==0){
+                WtotalTime=WtotalTime-System.currentTimeMillis()+PlayerChangetime;
+                PlayerChangetime = System.currentTimeMillis();
+                pastplayer = 0;
+                if(WtotalTime<0){return false;}
+            }
+            return true;
+        }
+    }
 
     public static void main(String[] args) throws InterruptedException {
         int color=0;
+        int keyboardsize = 17;
         StdDraw.setXscale(0,17);
         StdDraw.setYscale(-2,17);
         keyboard kb = new keyboard();
-        boolean mp = true;
+        boolean GameBegin = true;
         boolean playagain=true;
         boolean PVE=false;
+        StdDraw.text(1.7,10,"Welcome");
+        StdDraw.text(2,9,"to  Gomoku");
         StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledRectangle(2.5,1,2,1);
-        StdDraw.filledRectangle(10,1,2,1);
+        StdDraw.filledRectangle(2.5,3,2,1);
+        StdDraw.filledRectangle(10,3,2,1);
         StdDraw.setPenColor(Color.black);
-        StdDraw.text(2.5,1,"PVE");
-        StdDraw.text(10,1,"PVP");
-        for(;mp;) {
-            if(StdDraw.isMousePressed()){mp=false;}Thread.sleep(100);
+        StdDraw.text(2.5,3,"PVE");
+        StdDraw.text(2.5,5,"☮");
+        StdDraw.text(10,5,"⚔");
+        StdDraw.text(10,3,"PVP");
+        int PlayerInPve=0;
+        for(;GameBegin;) {
+            if(StdDraw.isMousePressed()){GameBegin=false;}Thread.sleep(100);
             if(StdDraw.mouseX()<3){PVE=true;}if(StdDraw.mouseX()>3){PVE=false;}}
-        boolean contin = true;
-for(;contin;){
-        contin=false;
+        if(PVE){
+            StdDraw.clear();StdDraw.text(7,5,"you want to play black or white?");
+            for(;true;){
+                StdDraw.text(5,2,"Black");StdDraw.text(15,2,"White");
+                if(StdDraw.isMousePressed()){if(StdDraw.mouseX()<10){PlayerInPve=1;}else{PlayerInPve=0;}break;}}}
         StdDraw.clear();
-        StdDraw.setPenColor(Color.yellow);
-        StdDraw.filledSquare(8.5,8.5,8.5);
-        StdDraw.setPenColor(Color.black);
-        for(int i=0 ; i<=17 ;i++){
-                StdDraw.line(0,i,18,i);
-                StdDraw.line(i,0,i,18);}
-        StdDraw.setPenColor(Color.RED);
-        StdDraw.filledSquare(8.5,-1,1);
-        int x=(int)99;int y=(int)99;
-        int ins=1;
+        Thread.sleep(100);
+        StdDraw.text(5,5,"which size board you want to play at?");
         for(;true;){
-            boolean setc=true;
-            if(color==1){StdDraw.setPenColor(Color.black);}else {StdDraw.setPenColor(Color.white);}
-            for(;setc;){
-
-                if(StdDraw.isMousePressed()){
-                    if(color==1&&PVE==true){
-                        int[]bot = kb.Bot();x=bot[0];y=bot[1];setc=false;color=(color+1)%2;Thread.sleep(100);break;}
-                    else {
+            StdDraw.text(5,2,"15*15");StdDraw.text(15,2,"17*17");
+            if(StdDraw.isMousePressed()){if(StdDraw.mouseX()<10){keyboardsize=15;}else{keyboardsize=17;}break;}}
+        boolean contin = true;
+        boolean PVEforbid = true;
+        timer.gameset();
+        for(;contin;){
+            contin=false;
+            StdDraw.clear();
+            StdDraw.setPenColor(216,168,67);
+            StdDraw.filledSquare(0.5+keyboardsize/2,0.5+keyboardsize/2,0.5+keyboardsize/2);
+            StdDraw.setPenColor(Color.black);
+            for(int i=0 ; i<=keyboardsize ;i++){
+                StdDraw.line(0,i,keyboardsize,i);
+                StdDraw.line(i,0,i,keyboardsize);}
+            StdDraw.setPenColor(Color.RED);
+            StdDraw.filledSquare(8.5,-1,1);
+            int x=(int)99;int y=(int)99;
+            int ins=1;
+            boolean overtime = true;
+            for(;true;){
+                boolean setc=true;
+                if(color==1){StdDraw.setPenColor(Color.black);}else {StdDraw.setPenColor(Color.white);}
+                if(PVE){if(PlayerInPve==0){}else{}}
+                for(;setc;){
+                    if(PVEforbid){if(PVE&&color==PlayerInPve){
+                        int[]bot = kb.Bota((PlayerInPve+1)%2);x=bot[0];y=bot[1];setc=false;color=(color+1)%2;Thread.sleep(100);}}
+                    if(StdDraw.isMousePressed()){
                         setc=false;x=(int)StdDraw.mouseX();y=(int)StdDraw.mouseY();
-                        color=(color+1)%2;Thread.sleep(100);break;}}
+                        color=(color+1)%2;Thread.sleep(100);}
+                    boolean forbidden = false;
+                    if(x<17&&color==1){if(y<17){forbidden = kb.forbidden(x,y,color);}}
+                    if(PVE==false){
+                    if(forbidden){color+=1;}
+                    if(color==1){StdDraw.setPenColor(Color.black);}else {StdDraw.setPenColor(Color.white);}
+                    if(forbidden==false){StdDraw.filledCircle(x+0.5,y+0.5,0.5);
+                        if(color==0){StdDraw.setPenColor(Color.black);StdDraw.filledCircle(8.5,-1,0.5);StdDraw.setPenColor(Color.WHITE);}
+                        if(color==1){StdDraw.setPenColor(Color.WHITE);StdDraw.filledCircle(8.5,-1,0.5);StdDraw.setPenColor(Color.black);}
+                        if(x<17&&y<17){kb.PlaceC(x,y,color);}}
+                    if(forbidden){
+                        StdDraw.setPenColor(StdDraw.RED);StdDraw.text(3,-1,"you can't place there");color=(color+1)%2;}
+                    if(StdDraw.isMousePressed()&&forbidden){
+                        color=(color+1)%2;StdDraw.setPenColor(Color.WHITE);StdDraw.filledRectangle(1,-2,5,2);}}
+                    else{
+                        PVEforbid = !forbidden;
+                        if(forbidden){color+=1;}
+                        if(color==1){StdDraw.setPenColor(Color.black);}else {StdDraw.setPenColor(Color.white);}
+                        if(forbidden==false){StdDraw.filledCircle(x+0.5,y+0.5,0.5);
+                            if(color==0){StdDraw.setPenColor(Color.black);StdDraw.filledCircle(8.5,-1,0.5);StdDraw.setPenColor(Color.WHITE);}
+                            if(color==1){StdDraw.setPenColor(Color.WHITE);StdDraw.filledCircle(8.5,-1,0.5);StdDraw.setPenColor(Color.black);}
+                            if(x<17&&y<17){kb.PlaceC(x,y,color);}}
+                        if(forbidden){
+                            StdDraw.setPenColor(StdDraw.RED);StdDraw.text(3,-1,"you can't place there");color=(color+1)%2;}
+                        if(StdDraw.isMousePressed()&&forbidden){
+                            color=(color+1)%2;StdDraw.setPenColor(Color.WHITE);StdDraw.filledRectangle(1,-2,5,2);}}
+                    if(forbidden){overtime=timer.countTime(0);}else {overtime =timer.countTime(color);}
+                    if(overtime==false){break;}
+                }
+                if(overtime==false){
+                    StdDraw.clear();StdDraw.setPenColor(Color.RED);
+                    if(color==0){StdDraw.text(10,5,"white win");Thread.sleep(2000);break;}
+                    if(color==1){StdDraw.text(10,5,"black win");Thread.sleep(2000);break;}
+                }
+                if(kb.Win(x,y,color)){
+                    StdDraw.clear();StdDraw.setPenColor(Color.RED);
+                    if(color==0){StdDraw.text(10,5,"white win");Thread.sleep(2000);break;}
+                    if(color==1){StdDraw.text(10,5,"black win");Thread.sleep(2000);break;}
+                }}
+            StdDraw.clear();StdDraw.text(2,5,"play again?");boolean pa = true;
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.filledRectangle(2.5,1,2,1);
+            StdDraw.filledRectangle(7.5,1,2,1);
+            StdDraw.filledRectangle(15,1,2,1);
+            StdDraw.setPenColor(Color.black);
+            StdDraw.text(2.5,1,"PVE)");
+            StdDraw.text(7.5,1,"PVP");
+            StdDraw.text(15,1,"exit game");
+            for(;pa;) {
+                if(StdDraw.isMousePressed()){pa=false;if(StdDraw.mouseX()>10){System.exit(0);}}Thread.sleep(100);
+                if(StdDraw.mouseX()<10){contin=true;color=0;}
+                if(StdDraw.mouseX()<5){PVE=true;}
+                if(StdDraw.mouseX()>5){PVE=false;}
+            }
+            if(PVE){
+                StdDraw.clear();StdDraw.text(7,5,"white or black?");
+                for(;true;){
+                    if(StdDraw.isMousePressed()){if(StdDraw.mouseX()<10){keyboardsize=15;}else{keyboardsize=17;}break;}
+                }}
+            Thread.sleep(200);
+            StdDraw.clear();
+            StdDraw.text(5,5,"which size board you want to play at?");
+            for(;true;){
+                StdDraw.text(5,2,"15*15");StdDraw.text(15,2,"17*17");
+                if(StdDraw.isMousePressed()){if(StdDraw.mouseX()<10){keyboardsize=15;}else{keyboardsize=17;}break;}}
+            kb.kbclear();
+            timer.gameset();
+        }
 
-                boolean abandoned = false;
-                if(x<17&&color==1){abandoned = kb.abandon(x,y,color);}
-                if(abandoned){color+=1;}
-                if(abandoned==false){StdDraw.filledCircle(x+0.5,y+0.5,0.5);
-                if(x<17&&y<17){kb.PlaceC(x,y,color);}}
-
-            if(abandoned){
-                StdDraw.setPenColor(StdDraw.RED);StdDraw.text(3,-1,"you can't place there");}
-
-            if(StdDraw.isMousePressed()){StdDraw.setPenColor(Color.WHITE);StdDraw.filledRectangle(1,-2,5,2);}}
-            if(kb.Win(x,y,color)){StdDraw.clear();StdDraw.setPenColor(Color.RED);if(color==1){StdDraw.text(1,1,"white win");break;}
-            if(color==0){StdDraw.text(1,1,"black win");}Thread.sleep(100);
-            }}
-        StdDraw.clear();StdDraw.text(2,2,"play again?");boolean pa = true;
-        StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledRectangle(2.5,1,2,1);
-        StdDraw.filledRectangle(7.5,1,2,1);
-        StdDraw.setPenColor(Color.black);
-        StdDraw.text(2.5,1,"play again(PVE)");
-        StdDraw.text(7.5,1,"quit(PVP)");
-        for(;pa;) {
-        if(StdDraw.isMousePressed()){pa=false;}Thread.sleep(100);
-        if(StdDraw.mouseX()<10){contin=true;color=0;}
-        if(StdDraw.mouseX()<5){PVE=true;}
-        if(StdDraw.mouseX()>5){PVE=false;}
-            }}
-        }}
-
-
+        StdDraw.clear();
+    }}
