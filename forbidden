@@ -1,1 +1,292 @@
+        public boolean forbidden(int x,int y,int player,int kbGap) {
+            int count = 1;
+            int countT = 0;
+            if(kbGap==0){
+            if (x < 15) {
+                for (int i = x + 1; i < 17; i++) {
+                    if (kb[i][y] == 1) {
+                        count++;
+                        if (count == 3 & kb[x + 3][y] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (x > 1) {
+                for (int i = x - 1; i > 0; i--) {
+                    if (kb[i][y] == 1) {
+                        count++;
+                        if (count == 3 & kb[x - 3][y] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (x > 1 & x < 16) {
+                if (kb[x - 1][y] == 1 & kb[x + 1][y] == 1 & kb[x - 2][y] != 0 & kb[x + 2][y] != 0 & kb[x - 2][y] != 1 & kb[x + 2][y] != 1) {
+                    countT++;
+                    count = 1;
+                }
+            }
+            if (y < 15) {
+                for (int i = y + 1; i < 17; i++) {
+                    if (kb[x][i] == 1) {
+                        count++;
+                        if (count == 3 & kb[x][y + 3] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (y > 1 & y < 16) {
+                for (int i = y - 1; i > 0; i--) {
+                    if (kb[x][i] == 1) {
+                        count++;
+                        if (count == 3 & kb[x][y - 3] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (y > 1 & y < 15) {
+                if (kb[x][y + 1] == 1 & kb[x][y - 1] == 1 & kb[x][y - 2] != 0 & kb[x][y + 2] != 0 & kb[x][y - 2] != 1 & kb[x][y + 2] != 1) {
+                    countT++;
+                    count = 1;
+                }
+            }
+            if (x > 1 & y > 1) {
+                int Y = y - 1;
+                for (int i = x - 1; i > 0; i--, Y--) {
+                    if (kb[i][Y] == 1) {
+                        count++;
+                        if (count == 3 & kb[x - 3][y - 3] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (x < 15 & y < 15) {
+                int Y = y + 1;
+                for (int i = x + 1; i < 17; i++, Y++) {
+                    if (kb[i][Y] == 1) {
+                        count++;
+                        if (count == 3 & kb[x + 3][y + 3] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (x > 1 & y > 1 & x < 15 & y < 15) {
+                if (kb[x - 1][y - 1] == 1 & kb[x + 1][y + 1] == 1 & kb[x + 2][y + 2] != 0 & kb[x - 2][y - 2] != 0 & kb[x + 2][y + 2] != 1 & kb[x - 2][y - 2] != 1) {
+                    countT++;
+                    count = 1;
+                }
+            }
+            if (x > 1 & y < 15) {
+                int Y = y + 1;
+                for (int i = x - 1; i > 0; i--, Y++) {
+                    if (kb[i][Y] == 1) {
+                        count++;
+                        if (count == 3 & kb[x - 3][y + 3] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (x < 15 & y > 1) {
+                int Y = y - 1;
+                for (int i = x + 1; i < 17; i++, Y--) {
+                    if (kb[i][Y] == 1) {
+                        count++;
+                        if (count == 3 & kb[x + 3][y - 3] == -1) {
+                            countT++;
+                            count = 1;
+                        }
+                    } else {
+                        count = 1;
+                        break;
+                    }
+                }
+            }
+            if (x > 1 & y < 15 & x < 15 & y > 1) {
+                if (kb[x + 1][y - 1] == 1 & kb[x - 1][y + 1] == 1 & kb[x + 2][y - 2] != 0 & kb[x - 2][y + 2] != 0 & kb[x + 2][y - 2] != 1 & kb[x - 2][y + 2] != 1) {
+                    countT++;
+                    count = 1;
+                }
+            }
+        }
+            else if(kbGap==2){
+                if (x < 13) {
+                    for (int i = x + 1; i < 15; i++) {
+                        if (kb[i][y] == 1) {
+                            count++;
+                            if (count == 3 & kb[x + 3][y] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (x > 1) {
+                    for (int i = x - 1; i > 0; i--) {
+                        if (kb[i][y] == 1) {
+                            count++;
+                            if (count == 3 & kb[x - 3][y] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (x > 1 & x < 14) {
+                    if (kb[x - 1][y] == 1 & kb[x + 1][y] == 1 & kb[x - 2][y] != 0 & kb[x + 2][y] != 0 & kb[x - 2][y] != 1 & kb[x + 2][y] != 1) {
+                        countT++;
+                        count = 1;
+                    }
+                }
+                if (y < 13) {
+                    for (int i = y + 1; i < 15; i++) {
+                        if (kb[x][i] == 1) {
+                            count++;
+                            if (count == 3 & kb[x][y + 3] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (y > 1 & y < 14) {
+                    for (int i = y - 1; i > 0; i--) {
+                        if (kb[x][i] == 1) {
+                            count++;
+                            if (count == 3 & kb[x][y - 3] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (y > 1 & y < 13) {
+                    if (kb[x][y + 1] == 1 & kb[x][y - 1] == 1 & kb[x][y - 2] != 0 & kb[x][y + 2] != 0 & kb[x][y - 2] != 1 & kb[x][y + 2] != 1) {
+                        countT++;
+                        count = 1;
+                    }
+                }
+                if (x > 1 & y > 1) {
+                    int Y = y - 1;
+                    for (int i = x - 1; i > 0; i--, Y--) {
+                        if (kb[i][Y] == 1) {
+                            count++;
+                            if (count == 3 & kb[x - 3][y - 3] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (x < 13 & y < 13) {
+                    int Y = y + 1;
+                    for (int i = x + 1; i < 15; i++, Y++) {
+                        if (kb[i][Y] == 1) {
+                            count++;
+                            if (count == 3 & kb[x + 3][y + 3] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (x > 1 & y > 1 & x < 13 & y < 13) {
+                    if (kb[x - 1][y - 1] == 1 & kb[x + 1][y + 1] == 1 & kb[x + 2][y + 2] != 0 & kb[x - 2][y - 2] != 0 & kb[x + 2][y + 2] != 1 & kb[x - 2][y - 2] != 1) {
+                        countT++;
+                        count = 1;
+                    }
+                }
+                if (x > 1 & y < 13) {
+                    int Y = y + 1;
+                    for (int i = x - 1; i > 0; i--, Y++) {
+                        if (kb[i][Y] == 1) {
+                            count++;
+                            if (count == 3 & kb[x - 3][y + 3] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (x < 13 & y > 1) {
+                    int Y = y - 1;
+                    for (int i = x + 1; i < 15; i++, Y--) {
+                        if (kb[i][Y] == 1) {
+                            count++;
+                            if (count == 3 & kb[x + 3][y - 3] == -1) {
+                                countT++;
+                                count = 1;
+                            }
+                        } else {
+                            count = 1;
+                            break;
+                        }
+                    }
+                }
+                if (x > 1 & y < 13 & x < 13 & y > 1) {
+                    if (kb[x + 1][y - 1] == 1 & kb[x - 1][y + 1] == 1 & kb[x + 2][y - 2] != 0 & kb[x - 2][y + 2] != 0 & kb[x + 2][y - 2] != 1 & kb[x - 2][y + 2] != 1) {
+                        countT++;
+                        count = 1;
+                    }
+                }
+            }
 
+            if(countT>=2){countT=0;
+                return true;}
+            countT=0;
+            return false;}
