@@ -165,16 +165,6 @@ public class GomokuGame {
                             if (x < 17 && y < 17)
                                 kb.PlaceC(x, y, color);
                         }
-                        if (forbidden) {
-                            StdDraw.setPenColor(StdDraw.RED);
-                            StdDraw.text(3, -1, "You can't place there!");
-                            color = (color + 1) % 2;
-                        }
-                        if (StdDraw.isMousePressed() && forbidden) {
-                            color = (color + 1) % 2;
-                            StdDraw.setPenColor(Color.WHITE);
-                            StdDraw.filledRectangle(1, -2, 5, 2);
-                        }
                     } else {
                         PVEForbid = !forbidden;
                         if (forbidden)
@@ -202,16 +192,16 @@ public class GomokuGame {
                             if (kb.Win(x, y, color))
                                 break;
                         }
-                        if (forbidden) {
-                            StdDraw.setPenColor(StdDraw.RED);
-                            StdDraw.text(3, -1, "You can't place there!");
-                            color = (color + 1) % 2;
-                        }
-                        if (StdDraw.isMousePressed() && forbidden) {
-                            color = (color + 1) % 2;
-                            StdDraw.setPenColor(Color.WHITE);
-                            StdDraw.filledRectangle(1, -2, 5, 2);
-                        }
+                    }
+                    if (forbidden) {
+                        StdDraw.setPenColor(StdDraw.RED);
+                        StdDraw.text(3, -1, "You can't place there!");
+                        color = (color + 1) % 2;
+                    }
+                    if (StdDraw.isMousePressed() && forbidden) {
+                        color = (color + 1) % 2;
+                        StdDraw.setPenColor(Color.WHITE);
+                        StdDraw.filledRectangle(1, -2, 5, 2);
                     }
                     if (forbidden)
                         overtime = timer.countTime(0);
@@ -255,7 +245,6 @@ public class GomokuGame {
             }
             StdDraw.clear();
             StdDraw.text(8.5, 9, "Play again?");
-            boolean pa = true;
             StdDraw.setPenColor(StdDraw.BLUE);
             StdDraw.filledRectangle(2.5, 1, 2, 1);
             StdDraw.filledRectangle(7.5, 1, 2, 1);
@@ -264,20 +253,24 @@ public class GomokuGame {
             StdDraw.text(2.5, 1, "PVE");
             StdDraw.text(7.5, 1, "PVP");
             StdDraw.text(15, 1, "Exit game");
+            boolean pa = true;
             while(pa){
-                if(StdDraw.isMousePressed()){
+                if(StdDraw.isMousePressed() && 0 < StdDraw.mouseY() && StdDraw.mouseY() < 2 &&
+                       ((0.5 < StdDraw.mouseX() && StdDraw.mouseX() < 4.5) ||
+                        (5.5 < StdDraw.mouseX() && StdDraw.mouseX() < 9.5) ||
+                        (13.5 < StdDraw.mouseX() && StdDraw.mouseX() < 16.5))) {
                     pa = false;
-                    if(StdDraw.mouseX() > 10)
+                    if (StdDraw.mouseX() > 10){
                         System.exit(0);
-                }Thread.sleep(100);
-                if(StdDraw.mouseX() < 10){
-                    gameContinue = true;
-                    color = 0;
+                        Thread.sleep(100);
+                    }
+                    else{
+                        gameContinue = true;
+                        color = 0;
+                        PVE = StdDraw.mouseX() < 5;
+                    }
+
                 }
-                if(StdDraw.mouseX() < 5)
-                    PVE = true;
-                if(StdDraw.mouseX() > 5)
-                    PVE = false;
             }
             if (PVE) {
                 StdDraw.clear();
@@ -329,3 +322,4 @@ public class GomokuGame {
         }
     }
 }
+
